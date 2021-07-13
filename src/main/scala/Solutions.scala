@@ -109,7 +109,7 @@ object Solutions extends CommonMethods {
 
   def aVeryBigSum(ar: Array[Long]): Long = {
     var summ: Long = 0L
-    for (i <- 0 to (ar.length-1)) {
+    for (i <- 0 to (ar.length - 1)) {
       summ += ar(i)
     }
     summ
@@ -153,6 +153,83 @@ object Solutions extends CommonMethods {
       people *= 3
     }
     sum
+  }
+
+  def saveThePrisoner(n: Int, m: Int, s: Int): Int = {
+    if ((s - 1 + m) % n == 0) {
+      n
+    } else {
+      (s - 1 + m) % n
+    }
+  }
+
+  def simpleArraySum(ar: Array[Int]): Int = {
+    ar.sum
+  }
+
+  def divisibleSumPairs(n: Int, k: Int, ar: Array[Int]): Int = {
+    val l = for {
+      i <- ar.indices
+      j <- i + 1 until ar.length
+      if (ar(i) + ar(j)) % k == 0
+    } yield 1
+    l.sum
+  }
+
+  def migratoryBirds(arr: Array[Int]): Int = {
+    val a = arr.groupBy(identity).map { case (k, v) => k -> v.length }
+    val max = a.values.max
+    a.filter(_._2 == max).min._1
+  }
+
+  def timeConversion(s: String): String = {
+    if (s.takeRight(2) == "PM") {
+      if (s.take(2) == "12") {
+        s.substring(0, 8)
+      } else {
+        (s.replaceFirst(s.take(2), (s.take(2).toInt + 12).toString)).substring(0, 8)
+      }
+    }
+    else {
+      if (s.take(2).toInt == 12) {
+        (s.replaceFirst(s.take(2), "00")).substring(0, 8)
+      } else {
+        s.substring(0, 8)
+      }
+    }
+  }
+
+  def bonAppetit(bill: Array[Int], k: Int, b: Int): Any = {
+    var summ = bill.sum - bill(k)
+    if(summ / 2 == b) {
+      "Bon Appetit"
+    } else {
+      b - (summ / 2)
+    }
+  }
+
+  def utopianTree(n: Int): Int = {
+    var summ = 0
+    for(i <- 0 to n) {
+      if(n == 0) {
+        summ += 1
+      } else if(i == 0){
+        summ += 1
+      } else if(i % 2 == 0){
+        summ += 1
+      } else {
+        summ *= 2
+      }
+    }
+    summ
+  }
+
+  def beautifulDays(i: Int, j: Int, k: Int): Int = {
+    val res = for {
+      a <- i to j
+      if (a.toString.reverse == a.toString && (abs((a.toString.reverse).toInt - (a.toString).toInt)/k).isInstanceOf[Int])
+    } yield 1
+    res.sum
   }
 
 }

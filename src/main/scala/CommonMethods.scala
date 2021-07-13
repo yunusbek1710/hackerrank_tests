@@ -45,6 +45,12 @@ trait CommonMethods {
     bsf(list, key, 0, list.length - 1)
   }
 
+  def generateMap(list: List[Int], map:Map[Int, Int]) : Map[Int, Int] = list match {
+      case x :: y => if(map.keySet.contains(x)) generateMap(y, map ++ Map(x -> (map(x)+1)))
+        else generateMap(y, map ++ Map(x -> 1))
+      case Nil => map
+  }
+
   def binarySearch(list: Array[Int], key: Int): Int = {
     @tailrec
     def bsf(list: Array[Int], key: Int, start: Int, end: Int): Int = {
