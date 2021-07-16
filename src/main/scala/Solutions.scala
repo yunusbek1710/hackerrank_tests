@@ -1,4 +1,6 @@
+import scala.annotation.tailrec
 import scala.math._
+
 object Solutions extends CommonMethods {
 
   def sockMerchant(ar: Array[Int]): Int =
@@ -99,29 +101,29 @@ object Solutions extends CommonMethods {
     else n * extraLongFactorials(n - 1)
   }
 
-//  def appendAndDelete(s: String, t: String, k: Int): String = {
-//
-//  }
+  //  def appendAndDelete(s: String, t: String, k: Int): String = {
+  //
+  //  }
 
-//  def getTotalX(a: Array[Int], b: Array[Int]): Int = {
-//
-//  }
+  //  def getTotalX(a: Array[Int], b: Array[Int]): Int = {
+  //
+  //  }
 
   def aVeryBigSum(ar: Array[Long]): Long = {
     var summ: Long = 0L
-    for (i <- 0 to (ar.length - 1)) {
+    for (i <- 1 until ar.length) {
       summ += ar(i)
     }
     summ
   }
 
-//  def longestSubarray(arr: Array[Int]): Int = {
-//    val list = for (i <- 0 until arr.length - 1) yield {
-//      s"${arr(i)}${arr(i + 1)}" -> (arr(i) - arr(i + 1))
-//    }
-//    println(list.groupBy(_._1).map{ case (str, value) => (str * value.length).length})
-//    list.groupBy(_._1).map{ case (str, value) => (str * value.length).length}.max
-//  }
+  //  def longestSubarray(arr: Array[Int]): Int = {
+  //    val list = for (i <- 0 until arr.length - 1) yield {
+  //      s"${arr(i)}${arr(i + 1)}" -> (arr(i) - arr(i + 1))
+  //    }
+  //    println(list.groupBy(_._1).map{ case (str, value) => (str * value.length).length})
+  //    list.groupBy(_._1).map{ case (str, value) => (str * value.length).length}.max
+  //  }
 
   def makingAnagrams(s1: String, s2: String): Int = {
     (s1 + s2).length - 2 * (s1 intersect s2).length
@@ -129,15 +131,15 @@ object Solutions extends CommonMethods {
 
   def designerPdfViewer(h: Array[Int], word: String): Int = {
     var maxx = 0
-    word.foreach( a => if(h(a.toInt - 97) >= maxx)  maxx = h(a.toInt - 97))
+    word.foreach(a => if (h(a.toInt - 97) >= maxx) maxx = h(a.toInt - 97))
     maxx * word.length
   }
 
   def angryProfessor(k: Int, a: Array[Int]): String = {
     var count = 0
-    a.foreach(i => if(i <= 0) count += 1)
+    a.foreach(i => if (i <= 0) count += 1)
     println(count)
-    if(count >= k) {
+    if (count >= k) {
       "NO"
     } else {
       "YES"
@@ -201,7 +203,7 @@ object Solutions extends CommonMethods {
 
   def bonAppetit(bill: Array[Int], k: Int, b: Int): Any = {
     var summ = bill.sum - bill(k)
-    if(summ / 2 == b) {
+    if (summ / 2 == b) {
       "Bon Appetit"
     } else {
       b - (summ / 2)
@@ -210,12 +212,12 @@ object Solutions extends CommonMethods {
 
   def utopianTree(n: Int): Int = {
     var summ = 0
-    for(i <- 0 to n) {
-      if(n == 0) {
+    for (i <- 0 to n) {
+      if (n == 0) {
         summ += 1
-      } else if(i == 0){
+      } else if (i == 0) {
         summ += 1
-      } else if(i % 2 == 0){
+      } else if (i % 2 == 0) {
         summ += 1
       } else {
         summ *= 2
@@ -227,9 +229,78 @@ object Solutions extends CommonMethods {
   def beautifulDays(i: Int, j: Int, k: Int): Int = {
     val res = for {
       a <- i to j
-      if (a.toString.reverse == a.toString && (abs((a.toString.reverse).toInt - (a.toString).toInt)/k).isInstanceOf[Int])
+      if (a.toString.reverse == a.toString && (abs((a.toString.reverse).toInt - (a.toString).toInt) / k).isInstanceOf[Int])
     } yield 1
     res.sum
+  }
+
+  def cutTheSticks(arr: Array[Int]): Array[Int] = {
+    @tailrec
+    def go(a: Array[Int], res: Array[Int] = Array.empty): Array[Int] = {
+      if (a.nonEmpty) {
+        val array = a.map(_ - a.min)
+        go(array.filter(_ > 0), res :+ array.length)
+      } else res
+    }
+
+    go(arr)
+  }
+
+  def bigSorting(unsorted: Array[String]): Array[String] = {
+    unsorted.sortWith((a, b) =>
+      if (a.length != b.length) a.length < b.length
+      else a < b)
+  }
+
+  def introTutorial(V: Int, arr: Array[Int]): Int = {
+    arr.indexOf(V)
+  }
+
+  def insertionSort1(n: Int, arr: Array[Int]): Array[Int] = {
+    var t = 0
+    for {
+      i <- arr.length - 1 to 0 by -1
+      j <- i - 1 to 0 by -1
+    } {
+      if (arr(i) < arr(j)) {
+        t = arr(i)
+        arr(i) = arr(j)
+        println(arr.mkString(" "))
+        arr(j) = t
+      }
+    }
+    println(arr.mkString(" "))
+    arr
+  }
+
+  def insertionSort2(n: Int, arr: Array[Int]): Array[Int] = {
+    for (i <- 1 until arr.length) {
+      var j: Int = i
+      val value: Int = arr(i)
+      while (j >= 1 && arr(j - 1) > value) {
+        arr(j) = arr(j - 1)
+        j -= 1
+      }
+      arr(j) = value
+      println(arr.mkString(" "))
+    }
+    arr
+  }
+
+  def quickSort(arr: Array[Int]): Array[Int] = {
+    var arr1: Array[Int] = arr.filter(a => a < arr(0)) :+ arr(0)
+    var arr2: Array[Int] = arr.filter(b => b > arr(0))
+    arr1 ++ arr2
+  }
+
+  def closestNumbers(arr: Array[Int]): Array[Int] = {
+    val sorted = arr.sorted
+    val index = for {
+      i <- 0 to sorted.length - 2
+    } yield (sorted(i + 1) - sorted(i) -> Array(sorted(i),sorted(i + 1)))
+    val min = index.minBy(_._1)
+    val res = index.filter(_._1 == min._1)
+    res.flatMap(_._2).toArray
   }
 
 }
