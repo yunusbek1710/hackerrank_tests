@@ -303,4 +303,22 @@ object Solutions extends CommonMethods {
     res.flatMap(_._2).toArray
   }
 
+  def jumpingOnCloud(c: Array[Int], k: Int): Int = {
+    val d = c.length / k
+    var s = 100
+    for(i <- k to d by k) {
+      println(c(i))
+      if(c(i) == 1) {
+        s -= 3
+        println(s)
+      } else {
+        s -= 1
+        println(s)
+      }
+    }
+    s - 1
+  }
+
+
+
 }
